@@ -7,7 +7,7 @@
 }
 
 #wfp-viz-ind #wfp-viz-gridmap{
-    height:650px;
+    height:775px;
 }
 
 #wfp-viz-ind #wfp-viz-gridlayer {
@@ -51,6 +51,10 @@
     margin-right:10px;
     background-color: #2A93FC;
     color: #ffffff;
+    width: 170px;
+    white-space: normal;
+    font-size: 14px;
+    height: 55px;
 }
 
 #wfp-viz-date {

@@ -13,54 +13,63 @@ var config = {};
 
 var dataStoreID = '748b40dd-7bd3-40a3-941b-e76f0bfbe0eb';
 var apiURL = 'https://data.hdx.rwlabs.org/api/3/action/datastore_search_sql';
-    
+
 var percentAccessor = function(d){
-    if(isNaN(d)){
-        return d;
+    if(isNaN(d) || d==null){
+        return 'No Data';
     } else {
         return Math.round(d*100)+'%';
     }
 }
 
 var vanilla = function(d){
-    return d;
-}
+        return d;
+    },
+    round1 = function(d){
+        var dataValue = parseFloat(d).toFixed(1);
+        return dataValue;
+    },
+    round2 = function(d){
+        var dataValue = parseFloat(d).toFixed(2);
+        return dataValue;
+    };
 
-    config.columns = [{
+config.columns = [
+    {
         heading:'rCSI',
-        display:'Reduced coping strategy',
+        display:'rCSI Median',
         domain:[0,100],
-        labelAccessor:vanilla,
+        labelAccessor:round1,
         group:'Overview',
         value:'Median'
     },
     {
         heading:'rCSI>=1',
-        display:'% using reduced coping strategy',
+        display:'% using reduced coping mechanisms',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'Overview',
-        value:'Mean'
+        value:'MEAN'
     },    
     {
         heading:'FCG<=2',
-        display:'Food consumption group <=2',
+        display:'% Poor+Borderline Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'Overview',
-        value:'Mean'
+        value:'MEAN'
     },   
     {
-        heading:'IDP_YN==Y',
-        display:'% IDPs',
+        heading:'FCG==1',
+        display:'% Poor Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'Overview',
-        value:'Mean'
+        value:'MEAN'
     },    
     {
         heading:'Sentiment',
-        display:'Sentiment',
+        display:'Perceptions of Food Security',
         domain:[-1,1],
         labelAccessor:vanilla,
         group:'Overview',
@@ -68,19 +77,27 @@ var vanilla = function(d){
     },
     {
         heading:'rCSI',
-        display:'Reduced coping strategy Score',
+        display:'rCSI Median',
         domain:[0,100],
-        labelAccessor:vanilla,
+        labelAccessor:round1,
         group:'rCSI',
         value:'Median'
     },
     {
+        heading:'rCSI',
+        display:'rCSI Mean',
+        domain:[0,100],
+        labelAccessor:round2,
+        group:'rCSI',
+        value:'MEAN'
+    },
+    {
         heading:'rCSI>=1',
-        display:'% using reduced coping strategy',
+        display:'% using reduced coping mechanisms',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'rCSI',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'BorrowOrHelp>=1',
@@ -88,7 +105,7 @@ var vanilla = function(d){
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'rCSI',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'ReduceNumMeals>=1',
@@ -96,7 +113,7 @@ var vanilla = function(d){
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'rCSI',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'RestrictConsumption>=1',
@@ -104,7 +121,7 @@ var vanilla = function(d){
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'rCSI',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'LimitPortionSize>=1',
@@ -112,7 +129,7 @@ var vanilla = function(d){
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'rCSI',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'LessExpensiveFood>=1',
@@ -120,229 +137,93 @@ var vanilla = function(d){
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'rCSI',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'FCS',
-        display:'Food Consumption Score',
-        domain:[0,100],
-        labelAccessor:vanilla,
+        display:'Mean Food Consumption Score',
+        domain:[0,112],
+        labelAccessor:round2,
         group:'FCS',
-        value:'Median'
+        value:'MEAN'
     },
     {
         heading:'FCG==1',
-        display:'Food Consumption Group =1',
+        display:'Poor Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'FCS',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'FCG==2',
-        display:'Food Consumption Group =2',
+        display:'Borderline Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'FCS',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'FCG==3',
-        display:'Food Consumption Group =3',
+        display:'Acceptable Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'FCS',
-        value:'Mean'
-    },
-    {
-        heading:'Protein>=3',
-        display:'Protein>=3',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'FCS',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'Dairy>=3',
-        display:'Dairy>=3',
+        display:'Consuming Dairy 3 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'FCS',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'Staples>=3',
-        display:'Staples>=3',
+        display:'Consuming Staples 3 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'FCS',
-        value:'Mean'
+        value:'MEAN'
     },
     {
         heading:'Veg>=3',
-        display:'Veg>=3',
+        display:'Consuming Vegetables 3 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
         group:'FCS',
-        value:'Mean'
+        value:'MEAN'
     },
     {
-        heading:'HouseType==Camp',
-        display:'% in Camp',
+        heading:'Sugars>=6',
+        display:'Consuming Sugars 6 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    },
-    {
-        heading:'HouseType==Other',
-        display:'% in Other',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    },
-    {
-        heading:'HouseType==Own_home',
-        display:'% in Own home',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    },
-    {
-        heading:'HouseType==Public_building',
-        display:'% in Public building',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    },
-    {
-        heading:'HouseType==Rental',
-        display:'% in Rental',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    },
-    {
-        heading:'HouseType==Staying_with_someone_for_free',
-        display:'% staying with someone for free',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    },
-    {
-        heading:'HouseType==Unfinished_building',
-        display:'% in unfinished building',
-        domain:[0,1],
-        labelAccessor:percentAccessor,
-        group:'Housing',
-        value:'Mean'
-    }];
-
-/*function initMap(){
-    
-    var base1 = L.tileLayer(
-            'https://data.hdx.rwlabs.org/mapbox-base-tiles/{z}/{x}/{y}.png',{
-            attribution: '&copy; OpenStreetMap contributors'}
-    );
-
-    var base2 = L.tileLayer(
-        'https://data.hdx.rwlabs.org/mapbox-layer-tiles/{z}/{x}/{y}.png',{
-            attribution: '&copy; OpenStreetMap contributors'}
-    );
-          
-    var topmap = L.map('wfp-viz-map', {
-        center: [0,0],
-        zoom: 3,
-        layers: [base1,base2]
-    });
-    
-    topmap.scrollWheelZoom.disable();
-
-    var info = L.control();
-
-    info.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'wfp-viz-mapinfo');
-        return div;
-    };
-
-    info.addTo(topmap);    
-    $('.wfp-viz-mapinfo').html('Click country for indicator data');
-    return topmap;
-}
-
-function addCountriesToMap(countries){
-    
-    var world_style = {
-        color: '#fff',
-        fillColor: '#2a93fc',
-        fillOpacity:0.8,
-        opacity:0.8,
-        weight:1
-    };
-    
-    var world = topojson.feature(un_world, un_world.objects.un_world);
-    var countryCodes = [];
-    countries.forEach(function(d){
-        countryCodes.push(d.code);
-    });
-
-    for(i = world.features.length-1; i >= 0; i--){
-        if( $.inArray(world.features[i].properties.ADM0_CODE, countryCodes ) === -1 ){
-            world.features.splice(i, 1);
-        }        
+        group:'FCS',
+        value:'MEAN'
     }
-    
-    var overlay_world = L.geoJson(world.features,{
-        style:world_style,
-        onEachFeature: function(feature, layer){
-            layer.on('mouseover',function(e){
-                $('.wfp-viz-mapinfo').html('Click to see indicators for '+feature.properties.ADM0_NAME);
-            });
-            layer.on('mouseout',function(e){
-                $('.wfp-viz-mapinfo').html('Click country for indicator data');
-            });            
-            layer.on('click', function (e) {
-                initCountry(feature);
-            });
-        }  
-    }).addTo(topmap);    
-}
-*/
+];
+
 function initCountry(ADM0_CODE){
     $('#wfp-viz-maplayer').slideUp(function(){
         $('#wfp-viz-gridmap').html('<p id="wfp-viz-loading">Loading...</i>')
         $('#wfp-viz-gridlayer').show();
     });
-    var sql =''
-    config.countries.forEach(function(c){
         //if(Number(feature.properties.ADM0_CODE)*1==Number(c.code)*1){
-        if(Number(ADM0_CODE)*1==Number(c.code)*1){
-            if(c.adm==1){
-                sql = 'SELECT * FROM "'+dataStoreID+'" WHERE "ADM0_CODE"=\''+ADM0_CODE+ '\' AND "ADM1_CODE"<>\'\' AND "ADM2_CODE"=\'\' AND "ADM3_CODE"=\'\' ORDER BY LENGTH("SvyYear"),"SvyYear", LENGTH("SvyMonthNum"),"SvyMonthNum"';
-            } else {
-                sql = 'SELECT * FROM "'+dataStoreID+'" WHERE "ADM0_CODE"=\''+ADM0_CODE+ '\' AND "ADM2_CODE"<>\'\' AND "ADM3_CODE"=\'\' ORDER BY LENGTH("SvyYear"), "SvyYear",LENGTH("SvyMonthNum"),"SvyMonthNum"';
-            }
-        }
-    });
-    loadData(sql,ADM0_CODE);
+        //https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT CASE WHEN StDev IS NULL OR (StDev IS NOT NULL AND Variable LIKE '%=%' AND (ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean<=0.12) OR (StDev IS NOT NULL AND Variable NOT LIKE '%=%' AND (ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean<=0.12) THEN Mean ELSE NULL END as MEAN, * FROM pblStatsSum4Maps WHERE ADM0_CODE='269' AND ADM1_CODE IS NOT NULL AND ADM2_CODE IS NULL AND ADM3_CODE IS NULL ORDER BY LENGTH(SvyYear), SvyYear,LENGTH(SvyMonthNum),SvyMonthNum
+        //https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT CASE WHEN StDev IS NULL OR (StDev IS NOT NULL AND Variable LIKE '%=%' AND (ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean<=0.12) OR (StDev IS NOT NULL AND Variable NOT LIKE '%=%' AND (ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean<=0.12) THEN Mean ELSE NULL END as MEAN, * FROM pblStatsSum4Maps WHERE Variable='rCSI' AND ADM0_CODE='269' AND ADM1_CODE IS NOT NULL AND ADM2_CODE IS NULL AND ADM3_CODE IS NULL ORDER BY LENGTH(SvyYear), SvyYear,LENGTH(SvyMonthNum),SvyMonthNum
+    loadData(ADM0_CODE);
 }
 
-function loadData(sql,countryID){
-    
-    var data = encodeURIComponent(JSON.stringify({sql: sql}));
+function loadData(countryID){
 
     $.ajax({
-      type: 'POST',
+      type: 'GET',
       dataType: 'json',
-      url: apiURL,
-      data: data,
+      url: 'https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT%20CASE%20WHEN%20StDev%20IS%20NULL%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20NOT%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20THEN%20Mean%20ELSE%20NULL%20END%20as%20MEAN,%20*%20FROM%20pblStatsSum4Maps%20WHERE%20ADM0_CODE=%27269%27%20AND%20ADM1_CODE%20IS%20NOT%20NULL%20AND%20ADM2_CODE%20IS%20NULL%20AND%20ADM3_CODE%20IS%20NULL%20ORDER%20BY%20LENGTH(SvyYear),%20SvyYear,LENGTH(SvyMonthNum),SvyMonthNum',
       success: function(data) {
-          loadGeo(countryID,data.result.records);
+          loadGeo(countryID,data);
       }
     });
 }
@@ -359,8 +240,12 @@ function loadGeo(countryID,data){
 }
 
 function compileData(data,geoData,countryID){
+    //data comes in one variables per row per date
+    //needs to be transformed into equivalent of csv per date
+    //with variables across the top and adm1 down the first column
     var admcode = '';
     var admname = '';
+    //different countries use different adm levels
     config.countries.forEach(function(c){
         if(Number(countryID)*1==Number(c.code)*1){
             if(c.adm==1){
@@ -372,37 +257,52 @@ function compileData(data,geoData,countryID){
             };
         }
     });
-
+    //create a list of which adm at which row from geom file
     var sac = {};
     var gridData = [];
     geoData.features.forEach(function(f,i){
         sac[f.properties[admcode]] = i;
     });
-    var variables = [];
+    //some variables are used more than once as both mean and median available
+    //for each variable name create a list of each time is is used
+    var vars = {};
     var meanormedian = {};
     config.columns.forEach(function(c){
-        variables.push(c['heading']);
-        meanormedian[c['heading']] = c['value'];
+        meanormedian[c['display']] = c['value'];
+        if(c['heading'] in vars){
+            vars[c['heading']].push(c['display']);
+        } else {
+            vars[c['heading']] = [c['display']];
+        }
     });
+
     var outputData = {};
     var dates = [];
+    //loop through data
     data.forEach(function(d){
-        if(variables.indexOf(d['Variable'])!=-1&&sac[d[admcode]]!=undefined){
+        //check variable is one we need and adm we need
+        if(d['Variable'] in vars &&sac[d[admcode]]!=undefined){
+            //if csv for that date does not exist create empty array of no data
             if(dates.indexOf(d['SvyDate'])==-1){
                 var gridData = [];
                 geoData.features.forEach(function(f,i){
                     var gd = {joinID:f.properties[admcode],name:f.properties[admname]};
                     config.columns.forEach(function(c){
-                        gd[c['heading']] = 'No Data';
+                        gd[c['display']] = 'No Data';
                     });
                     gridData.push(gd);
                 });                
                 outputData[d['SvyDate']] = gridData;
                 dates.push(d['SvyDate']);
             }
-            outputData[d['SvyDate']][sac[d[admcode]]][d['Variable']] = d[meanormedian[d['Variable']]];
+            //push variables mean or median to appropriate columns
+            vars[d['Variable']].forEach(function(v){
+                outputData[d['SvyDate']][sac[d[admcode]]][v] = d[meanormedian[v]];
+            })
+            
         }
     });
+
     initGrid(outputData,dates,geoData,countryID);
 
     $('#catoverview').on('click',function(e){
@@ -422,20 +322,13 @@ function compileData(data,geoData,countryID){
         lg._selectedBar = -1;
         $('#wfp-viz-grid-fcs').show();
     });
-
-    $('#cathousing').on('click',function(e){
-        $('.wfp-viz-grid').hide();
-        lg._selectedBar = -1;
-        $('#wfp-viz-grid-housing').show();
-    });        
 }
 
 function initGrid(data,dates,geom,countryID){
-    
+
     var admcode = '';
     var admname = '';
     var lastdate = dates[dates.length-1];
-    generateTimeSlider(dates,data);
     config.countries.forEach(function(c){
         if(Number(countryID)*1==Number(c.code)*1){
             if(c.adm==1){
@@ -450,7 +343,7 @@ function initGrid(data,dates,geom,countryID){
 
     var gridmap = new lg.map('#wfp-viz-gridmap').geojson(geom).nameAttr(admname).joinAttr(admcode).zoom(1).center([0,0]);
 
-    var categories = ['Overview','rCSI','FCS','Housing'];
+    var categories = ['Overview','rCSI','FCS'/*,'Housing'*/];
 
     var grid = {}; 
 
@@ -458,7 +351,7 @@ function initGrid(data,dates,geom,countryID){
         var columns = [];
         config.columns.forEach(function(c){
             if(c['group']==cat){
-                columns.push(new lg.column(c['heading']).label(c['display']).domain(c['domain']).labelAccessor(c['labelAccessor']));
+                columns.push(new lg.column(c['display']).label(c['display']).domain(c['domain']).labelAccessor(c['labelAccessor']));
             }
         });
 
@@ -467,51 +360,52 @@ function initGrid(data,dates,geom,countryID){
         grid[cat] = new lg.grid('#wfp-viz-grid-'+cat.toLowerCase())
             .data(data[lastdate])
             .width($('#wfp-viz-grid-'+cat.toLowerCase()).width())
-            .height(675)
+            .height(775)
             .nameAttr('name')
             .joinAttr('joinID')
             .hWhiteSpace(5)
             .vWhiteSpace(5)
             .columns(columns)
             .labelAngle(65)
-            .margins({top: 200, right: 50, bottom: 20, left: 120});
-    });    
+            .margins({top: 300, right: 70, bottom: 20, left: 120});
+    });
 
     lg.init();
     bottommap = gridmap.map();
 
-    var baselayer2 = L.tileLayer('https://data.hdx.rwlabs.org/mapbox-layer-tiles/{z}/{x}/{y}.png', {});
+    var baselayer2 = L.tileLayer('https://{s}.tiles.mapbox.com/v3/reliefweb.l43d4f5j/{z}/{x}/{y}.png', {});
 
     baselayer2.addTo(bottommap);
 
     zoomToGeom(geom);        
 
-    lg._gridRegister[0].updateData = updateData;
-    lg._gridRegister[1].updateData = updateData;
-    lg._gridRegister[2].updateData = updateData;
-    lg._gridRegister[3].updateData = updateData;
+    for (var i = 0; i < categories.length; i++){
+        lg._gridRegister[i].updateData = updateData;
+    }
+    generateTimeSlider(dates,data);
 
     function zoomToGeom(geom){
         bottommap.invalidateSize()
         var bounds = d3.geo.bounds(geom);
         bottommap.fitBounds([[bounds[0][1],bounds[0][0]],[bounds[1][1],bounds[1][0]]]);
     }
-
     function generateTimeSlider(dates,data){
-        max = dates.length-1;
+        var max = dates.length-1;
+        var min = 0;
         var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-        $('#wfp-viz-slider').html('<input id="wfp-viz-slider-input" type="range" min=0 max='+max+' value='+max+'>');
+        $('#wfp-viz-slider').html('<input id="wfp-viz-slider-input" type="range" min=0 max='+max+' value='+min+'>');
         
         $('#wfp-viz-slider-input').on('change',function(e){
-            lg._gridRegister[0].updateData(data[dates[$('#wfp-viz-slider-input').val()]]);
-            lg._gridRegister[1].updateData(data[dates[$('#wfp-viz-slider-input').val()]]);
-            lg._gridRegister[2].updateData(data[dates[$('#wfp-viz-slider-input').val()]]);
-            lg._gridRegister[3].updateData(data[dates[$('#wfp-viz-slider-input').val()]]);
-            var mdy = dates[$('#wfp-viz-slider-input').val()].split('/');
-            $('#wfp-viz-date').html(months[mdy[0]]+' '+mdy[2]);
+            for (var i = 0; i < categories.length; i++){
+                lg._gridRegister[i].updateData(data[dates[$('#wfp-viz-slider-input').val()]]);
+            }
+            var mdy = new Date(dates[$('#wfp-viz-slider-input').val()]);
+            $('#wfp-viz-date').html(months[mdy.getMonth()]+' '+ mdy.getFullYear());
         });
-        var mdy = dates[$('#wfp-viz-slider-input').val()].split('/');
-        $('#wfp-viz-date').html(months[mdy[0]]+' '+mdy[2]);   
+        $('#wfp-viz-slider-input').change();
+        var mdy = new Date(dates[$('#wfp-viz-slider-input').val()]);
+        $('#wfp-viz-date').html(months[mdy.getMonth()]+' '+mdy.getFullYear());
+
     }
 
 }
@@ -532,7 +426,7 @@ updateData = function(data){
 
             data.forEach(function(d,i){
                 var nd = {};
-                nd.pos = d.pos;
+                nd.pos = i;
                 nd.join = d[_parent._joinAttr];
                 nd.value = d[v._dataName];
                 newData.push(nd);
@@ -558,7 +452,7 @@ updateData = function(data){
             var dataSubset = [];
 
             newData.forEach(function(d){
-                dataSubset.push({'key':d.join,'value':d.value});
+                dataSubset.push({'key':d.join,'value':d.value, 'pos': d.pos});
             });                
 
             if(_parent._highlighted == i){    
@@ -584,16 +478,3 @@ updateData = function(data){
 
 var bottommap;
 initCountry(269);
-/*
-var topmap = initMap();
-addCountriesToMap(config.countries);
-
-$('#wfp-viz-returnmap').on('click',function(e){
-    $('#wfp-viz-grid').html('');
-    $('#wfp-viz-gridlayer').hide();
-    lg._gridRegister = [];
-    lg._selectedBar  = -1;
-    bottommap.remove();
-
-    $('#wfp-viz-maplayer').slideDown();
-});*/
