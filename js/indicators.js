@@ -23,23 +23,55 @@ var percentAccessor = function(d){
 }
 
 var vanilla = function(d){
+    if(isNaN(d) || d==null){
+        return 'No Data';
+    } else {
         return d;
+    }
     },
     round1 = function(d){
-        var dataValue = parseFloat(d).toFixed(1);
-        return dataValue;
+        if(isNaN(d) || d==null){
+            return 'No Data';
+        } else {
+            var dataValue = parseFloat(d).toFixed(1);
+            return dataValue;
+        }    
     },
     round2 = function(d){
-        var dataValue = parseFloat(d).toFixed(2);
-        return dataValue;
+        if(isNaN(d) || d==null){
+            return 'No Data';
+        } else {
+            var dataValue = parseFloat(d).toFixed(1);
+            return dataValue;
+        }    
     };
+
+var colors = ['#820000',"#D70000","#FF6E6E","#FFD7D7"]
+var colorAccessorDarkBright = function(d,i,min,max){
+    var range = max - min;
+    var quarter = Math.round(((d-min)/range)*4)
+    if(quarter==4){
+        quarter=3
+    }
+    return quarter
+}
+
+var colorAccessorBrightDark = function(d,i,min,max){
+    var range = max - min;
+    var quarter = Math.floor(((d-min)/range)*4)
+    if(quarter==4){
+        quarter=3
+    }
+    return 3-quarter
+}
 
 config.columns = [
     {
         heading:'rCSI',
         display:'rCSI Median',
-        domain:[0,100],
+        domain:[0,56],
         labelAccessor:round1,
+        colorAccessor:colorAccessorBrightDark,
         group:'Overview',
         value:'Median'
     },
@@ -48,6 +80,7 @@ config.columns = [
         display:'% using reduced coping mechanisms',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'Overview',
         value:'MEAN'
     },    
@@ -56,6 +89,7 @@ config.columns = [
         display:'% Poor+Borderline Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'Overview',
         value:'MEAN'
     },   
@@ -64,6 +98,7 @@ config.columns = [
         display:'% Poor Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'Overview',
         value:'MEAN'
     },    
@@ -72,22 +107,25 @@ config.columns = [
         display:'Perceptions of Food Security',
         domain:[-1,1],
         labelAccessor:vanilla,
+        colorAccessor:colorAccessorDarkBright,
         group:'Overview',
         value:'Median'
     },
     {
         heading:'rCSI',
         display:'rCSI Median',
-        domain:[0,100],
+        domain:[0,56],
         labelAccessor:round1,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'Median'
     },
     {
         heading:'rCSI',
         display:'rCSI Mean',
-        domain:[0,100],
+        domain:[0,56],
         labelAccessor:round2,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -96,6 +134,7 @@ config.columns = [
         display:'% using reduced coping mechanisms',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -104,6 +143,7 @@ config.columns = [
         display:'% getting help or borrowing',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -112,6 +152,7 @@ config.columns = [
         display:'% reducing meals',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -120,6 +161,7 @@ config.columns = [
         display:'% restricting consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -128,6 +170,7 @@ config.columns = [
         display:'% limiting portion size',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -136,6 +179,7 @@ config.columns = [
         display:'% buying less expensive food',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
     },
@@ -144,6 +188,7 @@ config.columns = [
         display:'Mean Food Consumption Score',
         domain:[0,112],
         labelAccessor:round2,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -152,6 +197,7 @@ config.columns = [
         display:'Poor Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -160,6 +206,7 @@ config.columns = [
         display:'Borderline Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -168,6 +215,7 @@ config.columns = [
         display:'Acceptable Food Consumption',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -176,6 +224,7 @@ config.columns = [
         display:'Consuming Dairy 3 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -184,6 +233,7 @@ config.columns = [
         display:'Consuming Staples 3 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -192,6 +242,7 @@ config.columns = [
         display:'Consuming Vegetables 3 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     },
@@ -200,6 +251,7 @@ config.columns = [
         display:'Consuming Sugars 6 or more Days/Week',
         domain:[0,1],
         labelAccessor:percentAccessor,
+        colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
     }
@@ -212,6 +264,7 @@ function initCountry(ADM0_CODE){
     });
         //if(Number(feature.properties.ADM0_CODE)*1==Number(c.code)*1){
         //https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT CASE WHEN StDev IS NULL OR (StDev IS NOT NULL AND Variable LIKE '%=%' AND (ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean<=0.12) OR (StDev IS NOT NULL AND Variable NOT LIKE '%=%' AND (ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean<=0.12) THEN Mean ELSE NULL END as MEAN, * FROM pblStatsSum4Maps WHERE ADM0_CODE='269' AND ADM1_CODE IS NOT NULL AND ADM2_CODE IS NULL AND ADM3_CODE IS NULL ORDER BY LENGTH(SvyYear), SvyYear,LENGTH(SvyMonthNum),SvyMonthNum
+        ////https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT CASE WHEN StDev IS NULL OR (StDev IS NOT NULL AND Variable LIKE '%=%' AND (ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean<=0.12) OR (StDev IS NOT NULL AND Variable NOT LIKE '%=%' AND (ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean<=0.12) THEN Mean ELSE NULL END as MEAN, Median, ADM1_CODE, SvyDate, Variable FROM pblStatsSum4Maps WHERE ADM0_CODE='269' AND ADM1_CODE IS NOT NULL AND ADM2_CODE IS NULL AND ADM3_CODE IS NULL ORDER BY LENGTH(SvyYear), SvyYear,LENGTH(SvyMonthNum),SvyMonthNum
         //https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT CASE WHEN StDev IS NULL OR (StDev IS NOT NULL AND Variable LIKE '%=%' AND (ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean<=0.12) OR (StDev IS NOT NULL AND Variable NOT LIKE '%=%' AND (ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean<=0.12) THEN Mean ELSE NULL END as MEAN, * FROM pblStatsSum4Maps WHERE Variable='rCSI' AND ADM0_CODE='269' AND ADM1_CODE IS NOT NULL AND ADM2_CODE IS NULL AND ADM3_CODE IS NULL ORDER BY LENGTH(SvyYear), SvyYear,LENGTH(SvyMonthNum),SvyMonthNum
     loadData(ADM0_CODE);
 }
@@ -221,7 +274,7 @@ function loadData(countryID){
     $.ajax({
       type: 'GET',
       dataType: 'json',
-      url: 'https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT%20CASE%20WHEN%20StDev%20IS%20NULL%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20NOT%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20THEN%20Mean%20ELSE%20NULL%20END%20as%20MEAN,%20*%20FROM%20pblStatsSum4Maps%20WHERE%20ADM0_CODE=%27269%27%20AND%20ADM1_CODE%20IS%20NOT%20NULL%20AND%20ADM2_CODE%20IS%20NULL%20AND%20ADM3_CODE%20IS%20NULL%20ORDER%20BY%20LENGTH(SvyYear),%20SvyYear,LENGTH(SvyMonthNum),SvyMonthNum',
+      url: 'https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT%20CASE%20WHEN%20StDev%20IS%20NULL%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20NOT%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20THEN%20Mean%20ELSE%20NULL%20END%20as%20MEAN,%20Median,%20ADM1_CODE,%20SvyDate,%20Variable%20FROM%20pblStatsSum4Maps%20WHERE%20ADM0_CODE=%27269%27%20AND%20ADM1_CODE%20IS%20NOT%20NULL%20AND%20ADM2_CODE%20IS%20NULL%20AND%20ADM3_CODE%20IS%20NULL%20ORDER%20BY%20LENGTH(SvyYear),%20SvyYear,LENGTH(SvyMonthNum),SvyMonthNum',
       success: function(data) {
           loadGeo(countryID,data);
       }
@@ -302,7 +355,6 @@ function compileData(data,geoData,countryID){
             
         }
     });
-
     initGrid(outputData,dates,geoData,countryID);
 
     $('#catoverview').on('click',function(e){
@@ -326,6 +378,7 @@ function compileData(data,geoData,countryID){
 
 function initGrid(data,dates,geom,countryID){
 
+    lg.colors(colors);
     var admcode = '';
     var admname = '';
     var lastdate = dates[dates.length-1];
@@ -351,7 +404,7 @@ function initGrid(data,dates,geom,countryID){
         var columns = [];
         config.columns.forEach(function(c){
             if(c['group']==cat){
-                columns.push(new lg.column(c['display']).label(c['display']).domain(c['domain']).labelAccessor(c['labelAccessor']));
+                columns.push(new lg.column(c['display']).label(c['display']).domain(c['domain']).labelAccessor(c['labelAccessor']).colorAccessor(c['colorAccessor']));
             }
         });
 
@@ -463,7 +516,8 @@ updateData = function(data){
                 .on("mouseover.color",function(d,i2){
                         if(lg._selectedBar==-1){
                             lg.mapRegister.colorMap(dataSubset,v);
-                        }                        
+                        }
+                        d3.selectAll('.dashgeom'+d.join).attr("fill-opacity",1);                        
                     })
                 .on('click.color',function(d,i2){
                         lg.mapRegister.colorMap(dataSubset,v);
