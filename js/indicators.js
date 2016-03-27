@@ -120,7 +120,7 @@ config.columns = [
         group:'rCSI',
         value:'Median'
     },
-    {
+    /*{
         heading:'rCSI',
         display:'rCSI Mean',
         domain:[0,56],
@@ -128,7 +128,7 @@ config.columns = [
         colorAccessor:colorAccessorBrightDark,
         group:'rCSI',
         value:'MEAN'
-    },
+    },*/
     {
         heading:'rCSI>=1',
         display:'% using reduced coping mechanisms',
@@ -183,7 +183,7 @@ config.columns = [
         group:'rCSI',
         value:'MEAN'
     },
-    {
+    /*{
         heading:'FCS',
         display:'Mean Food Consumption Score',
         domain:[0,112],
@@ -191,7 +191,7 @@ config.columns = [
         colorAccessor:colorAccessorDarkBright,
         group:'FCS',
         value:'MEAN'
-    },
+    },*/
     {
         heading:'FCG==1',
         display:'Poor Food Consumption',
