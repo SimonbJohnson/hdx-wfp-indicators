@@ -103,9 +103,9 @@ var lg =  {
         this._style = function(feature){
             return {
                 weight: 1,
-                opacity: 0.7,
+                opacity: 0.8,
                 color:'#000000',
-                fillOpacity: 0,
+                fillOpacity: 0.2,
                 className: 'dashgeom dashgeom'+feature.properties[lg.mapRegister._joinAttr]
             };
         };
@@ -172,16 +172,20 @@ var lg =  {
                     _parent._onHover(f.target.feature);
 
                     d3.selectAll('.horLine'+ currentData.pos +'id0').attr("opacity",1);
+                    d3.selectAll('.horLine'+ currentData.pos +'id1').attr("opacity",1);
+                    d3.selectAll('.horLine'+ currentData.pos +'id2').attr("opacity",1);
                     d3.selectAll('.dashgeom'+ currentData.key).attr("stroke-width",3);
-                    d3.selectAll('.dashgeom'+ currentData.key).attr("opacity",1);
+                    d3.selectAll('.dashgeom'+ currentData.key).attr("fill-opacity",1);
                 });
 
                 layer.on("mouseout",function(f,l){
                     var currentData = findCurrentData(f.target.feature.properties[_parent._joinAttr]);
                     _parent._info.update();
                     d3.selectAll('.horLine'+ currentData.pos +'id0').attr("opacity",0);
+                    d3.selectAll('.horLine'+ currentData.pos +'id1').attr("opacity",0);
+                    d3.selectAll('.horLine'+ currentData.pos +'id2').attr("opacity",0);
                     d3.selectAll('.dashgeom'+ currentData.key).attr("stroke-width",1);
-                    d3.selectAll('.dashgeom'+ currentData.key).attr("opacity",0.7);
+                    d3.selectAll('.dashgeom'+ currentData.key).attr("fill-opacity",0.8);
                 });
 
                 layer.on("click",function(f,l){
@@ -218,10 +222,10 @@ var lg =  {
             */
             data.forEach(function(d,i){
                 if(column._valueAccessor(d.value)==null||isNaN(column._valueAccessor(d.value))||column._valueAccessor(d.value)===''){
-                    d3.selectAll('.dashgeom'+d.key).attr('fill','#cccccc').attr('fill-opacity',0.7);
+                    d3.selectAll('.dashgeom'+d.key).attr('fill','#cccccc').attr('fill-opacity',0.8);
                 } else {
                     var c = column._colorAccessor(d.value,i,column._domain[0],column._domain[1]);
-                    d3.selectAll('.dashgeom'+d.key).attr('fill',column._colors[c]).attr('fill-opacity',0.7);
+                    d3.selectAll('.dashgeom'+d.key).attr('fill',column._colors[c]).attr('fill-opacity',0.8);
                 }
             });
         }
@@ -640,7 +644,7 @@ var lg =  {
                 selectBars.on("mouseover",function(d,i2){
 
                         d3.selectAll('.dashgeom'+d.join).attr("stroke-width",3);
-                        d3.selectAll('.dashgeom'+d.join).attr("opacity",1);
+
                         d3.selectAll('.horLine'+i2+'id'+_parent._idnum).attr("opacity",1);
                         d3.selectAll('.nameLabels')
 
@@ -656,12 +660,13 @@ var lg =  {
                     .on("mouseover.color",function(d,i2){
                         if(lg._selectedBar==-1){
                             lg.mapRegister.colorMap(dataSubset,v);
-                        }                        
+                        }
+                                                
                     })
                     .on("mouseout",function(d,i2){
                         d3.selectAll('.horLine'+i2+'id'+_parent._idnum).attr("opacity",0);
                         d3.selectAll('.dashgeom'+d.join).attr("stroke-width",1);
-                        d3.selectAll('.dashgeom'+d.join).attr("opacity",0.7);
+                        d3.selectAll('.dashgeom'+d.join).attr("fill-opacity",0.8);
                     })
                     .on('click.color',function(d,i2){
                         lg.mapRegister.colorMap(dataSubset,v);
