@@ -31,7 +31,7 @@ var lg =  {
         this._joinAttr = "";
         this._map = '';
         this._info = '';
-        this._currentData =[];
+        this._currentData =[{key:'',value:"N/A",pos:""}];
         this._currentColumn = "";
 
         lg.mapRegister = this;
@@ -163,13 +163,15 @@ var lg =  {
             return map;
 
             function onEachFeature(feature, layer) {
-
+                
                 layer.on("mouseover",function(f,l){
-                    columnName = _parent._currentColumn._labelName;
                     var currentData = findCurrentData(f.target.feature.properties[_parent._joinAttr]);
-                    dataValue = _parent._currentColumn._labelAccessor(currentData.value);
-                    _parent._info.update(f.target.feature.properties[_parent._nameAttr] + ' - ' + dataValue, columnName);
-                    _parent._onHover(f.target.feature);
+                    if(_parent._currentColumn!=""){
+                        columnName = _parent._currentColumn._labelName;
+                        dataValue = _parent._currentColumn._labelAccessor(currentData.value);
+                        _parent._info.update(f.target.feature.properties[_parent._nameAttr] + ' - ' + dataValue, columnName);
+                        _parent._onHover(f.target.feature);
+                    }
 
                     d3.selectAll('.horLine'+ currentData.pos +'id0').attr("opacity",1);
                     d3.selectAll('.horLine'+ currentData.pos +'id1').attr("opacity",1);
