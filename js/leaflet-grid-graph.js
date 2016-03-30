@@ -149,8 +149,8 @@ var lg =  {
             };
 
             this._info.update = function (name, colName) {
-                this._div.innerHTML = (name ? name: 'Hover a country for details');
-                this._div.innerHTML = ((name && colName) ? (colName + '<br><p style="font-size: 16px; text-align:right;">' + name) : 'Select a grid column and hover a country for details');
+                this._div.innerHTML = (name ? name: 'Hover a governate for details');
+                this._div.innerHTML = ((name && colName) ? (colName + '<br><p style="font-size: 16px; text-align:right;">' + name) : 'Select a grid column and hover a governate for details');
             }
 
             this._info.addTo(map);
