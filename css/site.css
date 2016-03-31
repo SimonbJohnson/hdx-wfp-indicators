@@ -10,10 +10,6 @@
     height:775px;
 }
 
-#wfp-viz-ind #wfp-viz-gridlayer {
-    display:none;
-}
-
 #wfp-viz-ind #wfp-viz-returnmap {
     background-color: #2A93FC;
     border-radius: 6px;
