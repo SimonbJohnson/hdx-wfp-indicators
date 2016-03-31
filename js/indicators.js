@@ -260,7 +260,6 @@ config.columns = [
 function initCountry(ADM0_CODE){
     $('#wfp-viz-maplayer').slideUp(function(){
         $('#wfp-viz-gridmap').html('<p id="wfp-viz-loading">Loading...</i>')
-        $('#wfp-viz-gridlayer').show();
     });
         //if(Number(feature.properties.ADM0_CODE)*1==Number(c.code)*1){
         //https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT CASE WHEN StDev IS NULL OR (StDev IS NOT NULL AND Variable LIKE '%=%' AND (ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean<=0.12) OR (StDev IS NOT NULL AND Variable NOT LIKE '%=%' AND (ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean<=0.12) THEN Mean ELSE NULL END as MEAN, * FROM pblStatsSum4Maps WHERE ADM0_CODE='269' AND ADM1_CODE IS NOT NULL AND ADM2_CODE IS NULL AND ADM3_CODE IS NULL ORDER BY LENGTH(SvyYear), SvyYear,LENGTH(SvyMonthNum),SvyMonthNum
@@ -401,6 +400,7 @@ function initGrid(data,dates,geom,countryID){
     var grid = {}; 
 
     categories.forEach(function(cat){
+        console.log($('#wfp-viz-grid-'+cat.toLowerCase()).width());
         var columns = [];
         config.columns.forEach(function(c){
             if(c['group']==cat){
@@ -531,4 +531,6 @@ updateData = function(data){
 
 
 var bottommap;
-initCountry(269);
+$(document).ready(function(){
+    initCountry(269)
+});
