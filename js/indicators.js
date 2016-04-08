@@ -270,17 +270,11 @@ function initCountry(ADM0_CODE){
 
 function loadData(countryID){
 
-    var sql = 'SELECT CASE WHEN "StDev" IS NULL OR ("StDev" IS NOT NULL AND "Variable" LIKE \'%=%\' AND (COALESCE("CnfIntvHi",1)-COALESCE("CnfIntvLo",0))/"Mean"<=0.12) OR ("StDev" IS NOT NULL AND "Variable" NOT LIKE \'%=%\' AND (COALESCE("CnfIntvHi","Pctl95")-COALESCE("CnfIntvLo",0))/"Mean"<=0.12) THEN "Mean" ELSE NULL END as "MEAN", "Median", "ADM1_CODE", "SvyDate", "Variable" FROM "748b40dd-7bd3-40a3-941b-e76f0bfbe0eb" WHERE "ADM0_CODE"=\'269\' AND "ADM1_CODE" IS NOT NULL AND "ADM2_CODE" IS NULL AND "ADM3_CODE" IS NULL ORDER BY character_length("SvyYear"::char), "SvyYear",character_length("SvyMonthNum"::char),"SvyMonthNum"';
-
-    var data = encodeURIComponent(JSON.stringify({sql: sql}))
-
     $.ajax({
-      type: 'POST',
+      type: 'GET',
       dataType: 'json',
-      url: 'https://data.hdx.rwlabs.org/api/action/datastore_search_sql',
-      data: data,
+      url: 'https://data.hdx.rwlabs.org/api/action/datastore_search_sql?sql=SELECT%20CASE%20WHEN%20%22StDev%22%20IS%20NULL%20OR%20(%22StDev%22%20IS%20NOT%20NULL%20AND%20%22Variable%22%20LIKE%20%27%25=%25%27%20AND%20(COALESCE(%22CnfIntvHi%22,1)-COALESCE(%22CnfIntvLo%22,0))/%22Mean%22%3C=0.12)%20OR%20(%22StDev%22%20IS%20NOT%20NULL%20AND%20%22Variable%22%20NOT%20LIKE%20%27%25=%25%27%20AND%20(COALESCE(%22CnfIntvHi%22,%22Pctl95%22)-COALESCE(%22CnfIntvLo%22,0))/%22Mean%22%3C=0.12)%20THEN%20%22Mean%22%20ELSE%20NULL%20END%20as%20%22MEAN%22,%20%22Median%22,%20%22ADM1_CODE%22,%20%22SvyDate%22,%20%22Variable%22%20FROM%20%22748b40dd-7bd3-40a3-941b-e76f0bfbe0eb%22%20WHERE%20%22ADM0_CODE%22=%27269%27%20AND%20%22ADM1_CODE%22%20IS%20NOT%20NULL%20AND%20%22ADM2_CODE%22%20IS%20NULL%20AND%20%22ADM3_CODE%22%20IS%20NULL%20ORDER%20BY%20character_length(%22SvyYear%22::char),%20%22SvyYear%22,character_length(%22SvyMonthNum%22::char),%22SvyMonthNum%22',
       success: function(data) {
-        console.log(data);
           loadGeo(countryID,data.result.records);
       }
     });
@@ -406,7 +400,6 @@ function initGrid(data,dates,geom,countryID){
     var grid = {}; 
 
     categories.forEach(function(cat){
-        console.log($('#wfp-viz-grid-'+cat.toLowerCase()).width());
         var columns = [];
         config.columns.forEach(function(c){
             if(c['group']==cat){
@@ -530,7 +523,9 @@ updateData = function(data){
                     })
 
             d3.selectAll('.sortLabel'+i+'id'+_parent._idnum).on("mouseover.color",function(d,i2){
-                        lg.mapRegister.colorMap(dataSubset,v);
+                        if(lg._selectedBar==-1){
+                            lg.mapRegister.colorMap(dataSubset,v);
+                        }
                     });                
         });
     }
