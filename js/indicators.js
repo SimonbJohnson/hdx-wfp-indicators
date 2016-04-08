@@ -270,12 +270,18 @@ function initCountry(ADM0_CODE){
 
 function loadData(countryID){
 
+    var sql = 'SELECT CASE WHEN "StDev" IS NULL OR ("StDev" IS NOT NULL AND "Variable" LIKE \'%=%\' AND (COALESCE("CnfIntvHi",1)-COALESCE("CnfIntvLo",0))/"Mean"<=0.12) OR ("StDev" IS NOT NULL AND "Variable" NOT LIKE \'%=%\' AND (COALESCE("CnfIntvHi","Pctl95")-COALESCE("CnfIntvLo",0))/"Mean"<=0.12) THEN "Mean" ELSE NULL END as "MEAN", "Median", "ADM1_CODE", "SvyDate", "Variable" FROM "748b40dd-7bd3-40a3-941b-e76f0bfbe0eb" WHERE "ADM0_CODE"=\'269\' AND "ADM1_CODE" IS NOT NULL AND "ADM2_CODE" IS NULL AND "ADM3_CODE" IS NULL ORDER BY character_length("SvyYear"::char), "SvyYear",character_length("SvyMonthNum"::char),"SvyMonthNum"';
+
+    var data = encodeURIComponent(JSON.stringify({sql: sql}))
+
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       dataType: 'json',
-      url: 'https://ds-ec2.scraperwiki.com/gfudhzb/r8kisejjlofexpc/sql?q=SELECT%20CASE%20WHEN%20StDev%20IS%20NULL%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,1)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20OR%20(StDev%20IS%20NOT%20NULL%20AND%20Variable%20NOT%20LIKE%20%27%=%%27%20AND%20(ifnull(CnfIntvHi,Pctl95)-ifnull(CnfIntvLo,0))/Mean%3C=0.12)%20THEN%20Mean%20ELSE%20NULL%20END%20as%20MEAN,%20Median,%20ADM1_CODE,%20SvyDate,%20Variable%20FROM%20pblStatsSum4Maps%20WHERE%20ADM0_CODE=%27269%27%20AND%20ADM1_CODE%20IS%20NOT%20NULL%20AND%20ADM2_CODE%20IS%20NULL%20AND%20ADM3_CODE%20IS%20NULL%20ORDER%20BY%20LENGTH(SvyYear),%20SvyYear,LENGTH(SvyMonthNum),SvyMonthNum',
+      url: 'https://data.hdx.rwlabs.org/api/action/datastore_search_sql',
+      data: data,
       success: function(data) {
-          loadGeo(countryID,data);
+        console.log(data);
+          loadGeo(countryID,data.result.records);
       }
     });
 }
