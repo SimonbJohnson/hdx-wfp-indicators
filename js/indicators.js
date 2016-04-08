@@ -400,7 +400,6 @@ function initGrid(data,dates,geom,countryID){
     var grid = {}; 
 
     categories.forEach(function(cat){
-        console.log($('#wfp-viz-grid-'+cat.toLowerCase()).width());
         var columns = [];
         config.columns.forEach(function(c){
             if(c['group']==cat){
@@ -524,7 +523,9 @@ updateData = function(data){
                     })
 
             d3.selectAll('.sortLabel'+i+'id'+_parent._idnum).on("mouseover.color",function(d,i2){
-                        lg.mapRegister.colorMap(dataSubset,v);
+                        if(lg._selectedBar==-1){
+                            lg.mapRegister.colorMap(dataSubset,v);
+                        }
                     });                
         });
     }
